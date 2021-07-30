@@ -39,7 +39,20 @@ const {
 
 var isAncestor = function(genealogyTree, ancestor, descendant){
   // Tu código aca:
+  while(genealogyTree[ancestor].length <=0){
+    return false
+  }
 
+  for(let index = 0; index < genealogyTree[ancestor].length; index++){
+    let auxiliar = genealogyTree[ancestor][index]
+    if(auxiliar === descendant){
+      return true
+    }
+    while(genealogyTree[auxiliar].length > 0){
+      return isAncestor(genealogyTree, auxiliar, descendant)
+    }
+  }
+  return false
 }
 
 
@@ -98,8 +111,19 @@ function secuenciaHenry(obj, n) {
 
 LinkedList.prototype.size = function(){
   // Tu código aca:
-
+  var contador = 0;
+  if (this.head === null) {
+    return 0;
+  } else {
+    var actual = this.head;
+    while (actual.next) {
+      contador = contador + 1;
+      actual = actual.next;
+    }
+    return (contador + 1);
+  }
 }
+
 
 
 // EJERCICIO 4
@@ -119,6 +143,30 @@ LinkedList.prototype.size = function(){
 
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
+  var actual = this.head;
+  var actual2 = this.head;
+  //En el caso de que alguna de las dos posiciones no sea válida 
+  if (pos1 > this.size() || pos2 > this.size() || pos1 < 0 || pos2 < 0){ 
+    return false;
+  }
+  //para saber si esta vacia
+  else if (this.head === null) {
+    return false;
+  }
+  //deberá intercambiar el elemento que se encuentre en pos1 con el elemento en pos2
+  else {
+    for (let i = 0; i < pos1; i++) {
+      actual = actual.next;
+    }
+    var auxValor = actual.value;
+    for (let i = 0; i < pos2; i++) {
+      actual2 = actual2.next;
+    }
+    var auxValor2 = actual2.value;
+    actual.value = auxValor2;
+    actual2.value = auxValor;
+    return true;
+  }
 
 }
 
@@ -135,6 +183,18 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 // Continuando con el nodo 2 de la lista 2, conectandose con el nodo 2 de la lista 2.
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
+  var list = new LinkedList();
+  var puntero1 = linkedListOne.head
+  var puntero2 = linkedListTwo.head
+
+  while (puntero1 != null && puntero2 != null) {
+    list.add(puntero1.value)
+    list.add(puntero2.value)
+
+    puntero1 = puntero1.next;
+    puntero2 = puntero2.next;
+  }
+  return list
 
 }
 
@@ -207,7 +267,26 @@ var cardGame = function(playerOneCards, playerTwoCards){
 
 BinarySearchTree.prototype.height = function(){
   // Tu código aca:
+  // si el arbol solo tiene 1 nivel
+  if (this.left === null && this.right === null) {
+    return 1;
+  }
 
+  // verifico hasta donde llega la rama izquierda
+  if (this.left === null) {
+    return 1 + this.right.height();
+  }
+
+  // verifico hasta donde llega la rama derecha 
+  if (this.right === null) {
+    return 1 + this.left.height();
+  } 
+  else{
+  // paso la mas larga con Math.max
+  var left = this.left.height()
+  var right = this.right.height()
+  return 1 + Math.max(left, right)
+  }
 }
 
 
@@ -229,6 +308,24 @@ BinarySearchTree.prototype.height = function(){
 
 var binarySearch = function (array, target) {
   // Tu código aca:
+  var primero = 0;
+  var ultimo = array.length - 1;
+  var posicion = -1;
+  var encontrado = false;
+  var medio;
+
+  while (encontrado === false && primero <= ultimo) {
+    medio = Math.floor((primero + ultimo) / 2);
+    if (array[medio] == target) {
+      encontrado = true;
+      posicion = medio;
+    } else if (array[medio] > target) {
+      ultimo = medio - 1;
+    } else {
+      primero = medio + 1;
+    }
+  }
+  return posicion;
 
 }
 
@@ -257,6 +354,20 @@ var binarySearch = function (array, target) {
 
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
+  var cambiado = true;
+
+  while (cambiado) {
+    cambiado = false;
+    for (let i = 0; i < array.length - 1; i++) {
+      if (orderFunction(array[i], array[i + 1]) === -1) {
+        let res = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = res;
+        cambiado = true;
+      }
+    }
+  }
+  return array;
 
 }
 
@@ -290,7 +401,7 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
-
+  
 }
 
 // -------------------
