@@ -90,7 +90,11 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 
 function secuenciaHenry(obj, n) {
   // Tu código aca:
-
+   
+  if (n < 0) return null;
+  if (n === 0) return obj.first;
+  if (n === 1) return Object.keys(obj).length;
+  return (secuenciaHenry(obj, n - 1) * secuenciaHenry(obj, n - 2) - secuenciaHenry(obj, n - 2));
 }
 
 // ---------------------
@@ -401,9 +405,18 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
-  
+  return function(person){
+    var EnfermedadesCoincidientes = 0;
+    
+    for (var i = 0; i < symptoms.length; i++) {
+  if(symptoms.includes(person.symptoms[i])) {
+     EnfermedadesCoincidientes ++;
+    }
+  }
+  if(EnfermedadesCoincidientes >= min) return true;
+    return false;
+  }
 }
-
 // -------------------
 
 module.exports = {
